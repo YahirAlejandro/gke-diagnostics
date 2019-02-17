@@ -1,0 +1,36 @@
+apiVersion: v1
+kind: List
+items:
+
+#  Qperf service
+- apiVersion: v1
+  kind: Service
+  metadata:
+    name: qperf-sever-service
+  spec:
+    ports:
+    - protocol: TCP
+      port: 19766
+    selector:
+      qperf: server
+
+# Qperf deployment
+- apiVersion: apps/v1
+  kind: Deployment
+  metadata:
+    name: qperf-server-deployment
+    labels:
+      qperf: server
+  spec:
+    replicas: 1
+    selector:
+      matchLabels:
+        qperf: server
+    template:
+      metadata:
+        labels:
+          qperf: server
+      spec:
+        containers:
+          - name: qperf-server
+            image:  gcr.io/${GOOGLE_CLOUD_PROJECT}/qperf:tag

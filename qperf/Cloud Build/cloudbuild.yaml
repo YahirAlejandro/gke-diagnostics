@@ -1,0 +1,6 @@
+# gcloud builds submit --config cloudbuild.yaml .
+steps:
+- name: 'gcr.io/cloud-builders/docker'
+  args: [ 'build', '-t', 'gcr.io/$PROJECT_ID/qperf', '../Dockerfile' ]
+images:
+- 'gcr.io/$PROJECT_ID/qperf'
